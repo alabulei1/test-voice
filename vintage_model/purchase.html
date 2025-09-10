@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Now - Vintage Elegance</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Purchase Page Specific Styles */
+        .purchase-container {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #f4e4c1, #e6d3a3);
+            padding: 60px 0;
+        }
+
+        .purchase-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 0 20px;
+        }
+
+        .product-summary {
+            background: rgba(255,255,255,0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid #daa520;
+        }
+
+        .product-image {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #8b4513;
+        }
+
+        .product-info h2 {
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-family: 'Georgia', serif;
+            font-size: 1.8rem;
+        }
+
+        .product-details {
+            margin: 20px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #5d4037;
+        }
+
+        .detail-value {
+            color: #8b4513;
+            font-weight: 500;
+        }
+
+        .price-summary {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: #f9f6f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-top: 2px solid #daa520;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        /* Order Form Styles */
+        .order-form {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid #daa520;
+        }
+
+        .form-title {
+            color: #8b4513;
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #8b4513;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-bottom: 2px solid #daa520;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background-color: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #daa520;
+            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #d32f2f;
+            background-color: #ffebee;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            background: #8b4513;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: #a0522d;
+        }
+
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .payment-option {
+            position: relative;
+        }
+
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-label {
+            display: block;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: white;
+        }
+
+        .payment-option input[type="radio"]:checked + .payment-label {
+            border-color: #daa520;
+            background: linear-gradient(135deg, #fff8dc, #f5deb3);
+            color: #8b4513;
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #daa520, #b8860b);
+            color: #2c1810;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #b8860b, #daa520);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .purchase-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .product-summary,
+            .order-form {
+                padding: 30px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .purchase-container {
+                padding: 40px 0;
+            }
+
+            .purchase-content {
+                padding: 0 15px;
+            }
+
+            .product-summary,
+            .order-form {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Vintage Elegance</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#demo" class="nav-link">Demo</a>
+                <a href="order_display.html" class="nav-link">Track Order</a>
+                <a href="purchase.html" class="nav-link cta">Order Now</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Purchase Container -->
+    <div class="purchase-container">
+        <div class="purchase-content">
+            <!-- Product Summary -->
+            <div class="product-summary">
+                <div class="product-image">
+                    <img src="images/vintage-model-1.jpg" alt="Vintage Model Figurine">
+                </div>
+                <div class="product-info">
+                    <h2>Classic Beauty Figurine</h2>
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Material:</span>
+                            <span class="detail-value">Premium Resin</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Height:</span>
+                            <span class="detail-value">12 inches</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Weight:</span>
+                            <span class="detail-value">2.5 lbs</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Style:</span>
+                            <span class="detail-value">Vintage Pin-up</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Finish:</span>
+                            <span class="detail-value">Hand-painted</span>
+                        </div>
+                    </div>
+                    <div class="price-summary">
+                        <div class="price-row">
+                            <span>Unit Price:</span>
+                            <span>$89.99</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Quantity:</span>
+                            <span id="display-quantity">1</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Subtotal:</span>
+                            <span id="display-subtotal">$89.99</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Shipping:</span>
+                            <span>$9.99</span>
+                        </div>
+                        <div class="price-row total-price">
+                            <span>Total:</span>
+                            <span id="display-total">$99.98</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <div class="order-form">
+                <h2 class="form-title">Complete Your Order</h2>
+                <form id="order-form">
+                    <!-- Product Selection -->
+                    <div class="form-section">
+                        <h3 class="section-title">Product Details</h3>
+                        <div class="form-group">
+                            <label class="form-label">Product <span class="required">*</span></label>
+                            <select class="form-input" id="product" name="product" required>
+                                <option value="vintage-classic">Classic Beauty Figurine - $89.99</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quantity <span class="required">*</span></label>
+                            <div class="quantity-selector">
+                                <button type="button" class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" class="form-input quantity-input" id="quantity" name="quantity" value="1" min="1" max="10" required>
+                                <button type="button" class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">Customer Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="firstName" name="firstName" required>
+                                <div class="error-message" id="firstName-error">Please enter your first name</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="lastName" name="lastName" required>
+                                <div class="error-message" id="lastName-error">Please enter your last name</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address <span class="required">*</span></label>
+                            <input type="email" class="form-input" id="email" name="email" required>
+                            <div class="error-message" id="email-error">Please enter a valid email address</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" id="phone" name="phone">
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="form-section">
+                        <h3 class="section-title">Shipping Address</h3>
+                        <div class="form-group">
+                            <label class="form-label">Street Address <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="address" name="address" required>
+                            <div class="error-message" id="address-error">Please enter your street address</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">City <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="city" name="city" required>
+                                <div class="error-message" id="city-error">Please enter your city</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">State/Province <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="state" name="state" required>
+                                <div class="error-message" id="state-error">Please enter your state/province</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">ZIP/Postal Code <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="zipCode" name="zipCode" required>
+                                <div class="error-message" id="zipCode-error">Please enter your ZIP/postal code</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country <span class="required">*</span></label>
+                                <select class="form-input" id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="error-message" id="country-error">Please select your country</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="form-section">
+                        <h3 class="section-title">Payment Method</h3>
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" id="credit-card" name="paymentMethod" value="credit-card" required>
+                                <label for="credit-card" class="payment-label">
+                                    💳 Credit Card
+                                </label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="paypal" name="paymentMethod" value="paypal" required>
+                                <label for="paypal" class="payment-label">
+                                    🅿️ PayPal
+                                </label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="bank-transfer" name="paymentMethod" value="bank-transfer" required>
+                                <label for="bank-transfer" class="payment-label">
+                                    🏦 Bank Transfer
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-message" id="payment-error">Please select a payment method</div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        Place Order - <span id="button-total">$99.98</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@vintageelegance.com</p>
+                    <p>Phone: +1-555-VINTAGE</p>
+                    <p>Hours: Mon-Fri 9AM-6PM EST</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <p><a href="order_display.html">Track Your Order</a></p>
+                    <p><a href="index.html#process">Shipping Info</a></p>
+                    <p><a href="index.html#features">Product Details</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Instagram: @VintageElegance</p>
+                    <p>Facebook: Vintage Elegance</p>
+                    <p>Twitter: @VintageModels</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vintage Elegance. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Purchase page specific JavaScript
+        const UNIT_PRICE = 89.99;
+        const SHIPPING_COST = 9.99;
+
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value);
+            let newQuantity = currentQuantity + change;
+
+            if (newQuantity >= 1 && newQuantity <= 10) {
+                quantityInput.value = newQuantity;
+                updatePricing();
+            }
+        }
+
+        function updatePricing() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const subtotal = UNIT_PRICE * quantity;
+            const total = subtotal + SHIPPING_COST;
+
+            document.getElementById('display-quantity').textContent = quantity;
+            document.getElementById('display-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('display-total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('button-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['firstName', 'lastName', 'email', 'address', 'city', 'state', 'zipCode', 'country'];
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + '-error');
+                
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            if (email.value && !validateEmail(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                isValid = false;
+            }
+
+            // Payment method validation
+            const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+            const paymentError = document.getElementById('payment-error');
+            const paymentSelected = Array.from(paymentMethods).some(radio => radio.checked);
+            
+            if (!paymentSelected) {
+                paymentError.style.display = 'block';
+                isValid = false;
+            } else {
+                paymentError.style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        // Form submission
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                showNotification('Please fill in all required fields correctly.', 'error');
+                return;
+            }
+
+            // Track order submission
+            trackClick('order_submitted');
+
+            // Simulate order processing
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing Order...';
+
+            setTimeout(() => {
+                // Generate order ID
+                const orderId = 'VE' + Date.now().toString().slice(-8);
+                
+                // Show success message
+                showNotification('Order submitted successfully! Due to high demand, online payment is temporarily unavailable. Your order status is "Pending Payment".', 'success');
+                
+                // Store order data (in real app, this would go to a server)
+                const orderData = {
+                    orderId: orderId,
+                    product: document.getElementById('product').value,
+                    quantity: document.getElementById('quantity').value,
+                    customerName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: {
+                        street: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        state: document.getElementById('state').value,
+                        zipCode: document.getElementById('zipCode').value,
+                        country: document.getElementById('country').value
+                    },
+                    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+                    total: document.getElementById('display-total').textContent,
+                    status: 'Pending Payment',
+                    timestamp: new Date().toISOString(),
+                    site: 'vintage_model'
+                };
+
+                console.log('Order Data:', orderData);
+                localStorage.setItem('lastOrder', JSON.stringify(orderData));
+
+                // Redirect to order confirmation or track page
+                setTimeout(() => {
+                    window.location.href = `order_display.html?orderId=${orderId}`;
+                }, 2000);
+
+            }, 2000);
+        });
+
+        // Real-time validation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'block';
+                    }
+                } else {
+                    this.classList.remove('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                }
+            });
+        });
+
+        // Quantity input change handler
+        document.getElementById('quantity').addEventListener('change', updatePricing);
+
+        // Initialize pricing
+        updatePricing();
+    </script>
+</body>
+</html>

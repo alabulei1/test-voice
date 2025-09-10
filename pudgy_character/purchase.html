@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adopt Your PudgyPal - PudgyPals</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .purchase-container {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8);
+            padding: 60px 0;
+        }
+        
+        .purchase-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 0 20px;
+        }
+        
+        .product-summary, .order-form {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255, 118, 117, 0.2);
+            border: 2px solid #ff7675;
+        }
+        
+        .product-image img {
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 3px solid #ff7675;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ff7675;
+            border-radius: 10px;
+            font-family: 'Comic Sans MS', cursive;
+            margin-bottom: 15px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 184, 148, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .purchase-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>PudgyPals</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="order_display.html" class="nav-link">Track Order</a>
+                <a href="purchase.html" class="nav-link cta">Adopt Now</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="purchase-container">
+        <div class="purchase-content">
+            <div class="product-summary">
+                <div class="product-image" style="text-align: center; margin-bottom: 20px;">
+                    <img src="images/pudgy-1.jpg" alt="PudgyPal Character">
+                </div>
+                <h2 style="color: #ff7675; font-family: 'Comic Sans MS', cursive; text-align: center;">Adorable PudgyPal</h2>
+                <div style="margin: 20px 0;">
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                        <span>Size:</span><span>Medium (8 inches)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                        <span>Material:</span><span>Super Soft Plush</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                        <span>Price:</span><span>$39.99</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 10px 0;">
+                        <span>Shipping:</span><span>$5.99</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin: 15px 0; font-weight: bold; font-size: 1.2rem; color: #ff7675;">
+                        <span>Total:</span><span>$45.98</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-form">
+                <h2 style="color: #ff7675; font-family: 'Comic Sans MS', cursive; text-align: center; margin-bottom: 20px;">Adoption Form 🥰</h2>
+                <form id="order-form">
+                    <input type="text" class="form-input" placeholder="First Name *" id="firstName" required>
+                    <input type="text" class="form-input" placeholder="Last Name *" id="lastName" required>
+                    <input type="email" class="form-input" placeholder="Email Address *" id="email" required>
+                    <input type="tel" class="form-input" placeholder="Phone Number" id="phone">
+                    <input type="text" class="form-input" placeholder="Street Address *" id="address" required>
+                    <input type="text" class="form-input" placeholder="City *" id="city" required>
+                    <input type="text" class="form-input" placeholder="State *" id="state" required>
+                    <input type="text" class="form-input" placeholder="ZIP Code *" id="zipCode" required>
+                    <select class="form-input" id="country" required>
+                        <option value="">Select Country *</option>
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                        <option value="UK">United Kingdom</option>
+                        <option value="other">Other</option>
+                    </select>
+                    
+                    <div style="margin: 20px 0;">
+                        <h4 style="color: #ff7675; margin-bottom: 10px;">Payment Method *</h4>
+                        <label style="display: block; margin: 10px 0;"><input type="radio" name="payment" value="card" required> 💳 Credit Card</label>
+                        <label style="display: block; margin: 10px 0;"><input type="radio" name="payment" value="paypal" required> 🅿️ PayPal</label>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Adopt My PudgyPal - $45.98 🥰</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: hello@pudgypals.com</p>
+                    <p>Phone: +1-555-PUDGY</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Instagram: @PudgyPalsOfficial</p>
+                    <p>TikTok: @PudgyPals</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PudgyPals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const orderId = 'PP' + Date.now().toString().slice(-8);
+            const orderData = {
+                orderId: orderId,
+                product: 'Adorable PudgyPal - $39.99',
+                quantity: 1,
+                customerName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: {
+                    street: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zipCode: document.getElementById('zipCode').value,
+                    country: document.getElementById('country').value
+                },
+                paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+                total: '$45.98',
+                status: 'Pending Payment',
+                timestamp: new Date().toISOString(),
+                site: 'pudgy_character'
+            };
+
+            localStorage.setItem('lastOrder', JSON.stringify(orderData));
+            showNotification('🎉 Adoption successful! Your PudgyPal will be shipped soon!', 'success');
+            
+            setTimeout(() => {
+                window.location.href = `order_display.html?orderId=${orderId}`;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

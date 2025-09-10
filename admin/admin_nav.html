@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台入口选择</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .nav-container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .nav-title {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-subtitle {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+
+        .nav-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .nav-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .nav-card.new-version::before {
+            background: linear-gradient(135deg, #00d4ff, #090979);
+        }
+
+        .nav-card.old-version::before {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .card-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .card-features li {
+            color: #27ae60;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .badge-new {
+            background: linear-gradient(135deg, #00d4ff, #090979);
+        }
+
+        .badge-classic {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .card-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .new-version .card-button {
+            background: linear-gradient(135deg, #00d4ff, #090979);
+        }
+
+        .old-version .card-button {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        .card-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .info-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .info-content {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .comparison-table .feature-name {
+            font-weight: 600;
+        }
+
+        .comparison-table .check {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .comparison-table .cross {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .nav-title {
+                font-size: 2rem;
+            }
+
+            .nav-options {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-card {
+                padding: 30px 20px;
+            }
+
+            .card-icon {
+                font-size: 3rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <h1 class="nav-title">🏪 商品管理后台</h1>
+        <p class="nav-subtitle">选择您要使用的管理后台版本</p>
+
+        <div class="nav-options">
+            <!-- 新版管理后台 -->
+            <a href="index.html" class="nav-card new-version">
+                <span class="card-badge badge-new">推荐</span>
+                <span class="card-icon">🚀</span>
+                <h2 class="card-title">新版管理后台</h2>
+                <p class="card-description">
+                    全新设计的三页面管理系统，提供更好的用户体验和数据分析功能
+                </p>
+                <ul class="card-features">
+                    <li>四个专业页面：首页、订单管理、数据统计、商品管理</li>
+                    <li>美观的导航菜单和页面切换</li>
+                    <li>增强的数据可视化图表</li>
+                    <li>更详细的用户行为分析</li>
+                    <li>完整的商品管理系统</li>
+                    <li>响应式设计，完美适配移动端</li>
+                    <li>站点筛选功能，支持独立分析</li>
+                </ul>
+                <span class="card-button">进入新版后台</span>
+            </a>
+
+            <!-- 经典版管理后台 -->
+            <a href="admin_dashboard.html" class="nav-card old-version">
+                <span class="card-badge badge-classic">经典版</span>
+                <span class="card-icon">📊</span>
+                <h2 class="card-title">经典版管理后台</h2>
+                <p class="card-description">
+                    原始的单页面管理后台，功能完整，适合习惯传统界面的用户
+                </p>
+                <ul class="card-features">
+                    <li>单页面集成所有功能</li>
+                    <li>完整的订单管理系统</li>
+                    <li>用户行为追踪分析</li>
+                    <li>数据调试和验证工具</li>
+                    <li>经过充分测试的稳定版本</li>
+                    <li>熟悉的界面布局</li>
+                </ul>
+                <span class="card-button">进入经典版后台</span>
+            </a>
+        </div>
+
+        <div class="info-section">
+            <h3 class="info-title">📋 功能对比</h3>
+            <div class="info-content">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>功能特性</th>
+                            <th>新版后台</th>
+                            <th>经典版后台</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">页面结构</td>
+                            <td>三页面分离式设计</td>
+                            <td>单页面集成式设计</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">导航菜单</td>
+                            <td><span class="check">✓</span> 侧边导航栏</td>
+                            <td><span class="cross">✗</span> 无独立导航</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">数据概览</td>
+                            <td><span class="check">✓</span> 专门的首页展示</td>
+                            <td><span class="check">✓</span> 统计卡片展示</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">订单管理</td>
+                            <td><span class="check">✓</span> 专门的订单页面</td>
+                            <td><span class="check">✓</span> 订单列表和筛选</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">用户行为分析</td>
+                            <td><span class="check">✓</span> 专门的分析页面</td>
+                            <td><span class="check">✓</span> 活动记录表格</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">商品管理</td>
+                            <td><span class="check">✓</span> 完整的商品管理系统</td>
+                            <td><span class="cross">✗</span> 无商品管理功能</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">数据可视化</td>
+                            <td><span class="check">✓</span> 增强的图表和漏斗</td>
+                            <td><span class="check">✓</span> 基础图表展示</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">站点筛选</td>
+                            <td><span class="check">✓</span> 全局筛选器</td>
+                            <td><span class="check">✓</span> 筛选按钮</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">响应式设计</td>
+                            <td><span class="check">✓</span> 完全适配</td>
+                            <td><span class="check">✓</span> 基础适配</td>
+                        </tr>
+                        <tr>
+                            <td class="feature-name">调试功能</td>
+                            <td><span class="check">✓</span> 内置调试工具</td>
+                            <td><span class="check">✓</span> 详细调试信息</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 记录用户选择
+        document.querySelectorAll('.nav-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const version = this.classList.contains('new-version') ? 'new' : 'classic';
+                console.log(`用户选择了${version}版本的管理后台`);
+                
+                // 可以在这里添加统计代码
+                localStorage.setItem('admin_version_preference', version);
+            });
+        });
+
+        // 显示上次选择的版本偏好
+        const lastPreference = localStorage.getItem('admin_version_preference');
+        if (lastPreference) {
+            const preferredCard = document.querySelector(lastPreference === 'new' ? '.new-version' : '.old-version');
+            if (preferredCard) {
+                preferredCard.style.border = '3px solid #27ae60';
+                preferredCard.style.boxShadow = '0 10px 30px rgba(39, 174, 96, 0.3)';
+                
+                // 添加"上次选择"标识
+                const badge = document.createElement('span');
+                badge.className = 'card-badge';
+                badge.style.background = '#27ae60';
+                badge.textContent = '上次选择';
+                preferredCard.querySelector('.card-badge').after(badge);
+            }
+        }
+    </script>
+</body>
+</html>

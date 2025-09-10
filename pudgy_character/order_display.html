@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your PudgyPal - PudgyPals</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .order-container {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8);
+            padding: 60px 0;
+        }
+        
+        .order-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .search-form, .order-result {
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(255, 118, 117, 0.2);
+            border: 2px solid #ff7675;
+            margin-bottom: 30px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ff7675;
+            border-radius: 10px;
+            font-family: 'Comic Sans MS', cursive;
+            margin-bottom: 15px;
+        }
+        
+        .search-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-family: 'Comic Sans MS', cursive;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .order-result {
+            display: none;
+        }
+        
+        .order-result.show {
+            display: block;
+        }
+
+        .order-details-table {
+            margin-bottom: 30px;
+        }
+
+        .order-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(255, 118, 117, 0.2);
+            border: 2px solid #ff7675;
+        }
+
+        .order-info-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 118, 117, 0.1);
+            vertical-align: top;
+        }
+
+        .order-info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-info-table tr:nth-child(even) {
+            background: rgba(255, 118, 117, 0.05);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #ff7675;
+            width: 25%;
+            font-size: 0.95rem;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-weight: 500;
+            width: 25%;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fab1a0, #fd79a8);
+            color: white;
+            border: 1px solid #ff7675;
+            font-family: 'Comic Sans MS', cursive;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>PudgyPals</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="order_display.html" class="nav-link">Track Order</a>
+                <a href="purchase.html" class="nav-link cta">Adopt Now</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="order-container">
+        <div class="order-content">
+            <h1 style="text-align: center; color: #ff7675; font-family: 'Comic Sans MS', cursive; font-size: 2.5rem; margin-bottom: 40px;">Track Your PudgyPal 🥰</h1>
+
+            <div class="search-form">
+                <h2 style="color: #ff7675; font-family: 'Comic Sans MS', cursive; text-align: center; margin-bottom: 20px;">Find Your Adoption 🔍</h2>
+                <form id="search-form">
+                    <input type="text" class="form-input" placeholder="Full Name *" id="customerName" required>
+                    <input type="email" class="form-input" placeholder="Email Address *" id="email" required>
+                    <input type="text" class="form-input" placeholder="Order ID (Optional)" id="orderId">
+                    <textarea class="form-input" placeholder="Any questions about your PudgyPal?" id="message" style="height: 100px; resize: vertical;"></textarea>
+                    <button type="submit" class="search-btn">Search My PudgyPal 🔍</button>
+                </form>
+            </div>
+
+            <div class="order-result" id="order-result">
+                <!-- Order content will be inserted here -->
+            </div>
+
+            <div style="background: linear-gradient(135deg, #00b894, #00cec9); color: white; padding: 30px; border-radius: 20px; text-align: center; margin-top: 30px;">
+                <h3 style="margin-bottom: 15px;">Need Help? 🤗</h3>
+                <p><strong>📧 Email:</strong> hello@pudgypals.com</p>
+                <p><strong>📞 Phone:</strong> +1-555-PUDGY</p>
+                <p><strong>🕒 Hours:</strong> Monday - Friday, 9AM - 6PM EST</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: hello@pudgypals.com</p>
+                    <p>Phone: +1-555-PUDGY</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Instagram: @PudgyPalsOfficial</p>
+                    <p>TikTok: @PudgyPals</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PudgyPals. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+            
+            if (orderId) {
+                document.getElementById('orderId').value = orderId;
+                searchOrder();
+            }
+
+            const lastOrder = localStorage.getItem('lastOrder');
+            if (lastOrder && !orderId) {
+                const orderData = JSON.parse(lastOrder);
+                if (orderData.site === 'pudgy_character') {
+                    document.getElementById('customerName').value = orderData.customerName;
+                    document.getElementById('email').value = orderData.email;
+                    document.getElementById('orderId').value = orderData.orderId;
+                }
+            }
+        });
+
+        function searchOrder() {
+            const customerName = document.getElementById('customerName').value;
+            const email = document.getElementById('email').value;
+            const orderId = document.getElementById('orderId').value;
+
+            if (!customerName || !email) {
+                showNotification('Please fill in your name and email!', 'error');
+                return;
+            }
+
+            let orderData = null;
+            const lastOrder = localStorage.getItem('lastOrder');
+            if (lastOrder) {
+                const stored = JSON.parse(lastOrder);
+                if (stored.site === 'pudgy_character' && 
+                    stored.customerName.toLowerCase().includes(customerName.toLowerCase()) && 
+                    stored.email.toLowerCase() === email.toLowerCase()) {
+                    orderData = stored;
+                }
+            }
+
+            if (!orderData) {
+                orderData = {
+                    orderId: orderId || 'PP' + Math.random().toString(36).substr(2, 8).toUpperCase(),
+                    product: 'Adorable PudgyPal - $39.99',
+                    customerName: customerName,
+                    email: email,
+                    total: '$45.98',
+                    status: 'Pending Payment',
+                    timestamp: new Date().toISOString(),
+                    site: 'pudgy_character'
+                };
+            }
+
+            displayOrder(orderData);
+        }
+
+        function displayOrder(orderData) {
+            const resultDiv = document.getElementById('order-result');
+            const orderDate = new Date(orderData.timestamp).toLocaleDateString();
+
+            resultDiv.innerHTML = `
+                <h3 style="color: #ff7675; font-family: 'Comic Sans MS', cursive; text-align: center; margin-bottom: 20px;">
+                    🎉 Order #${orderData.orderId}
+                </h3>
+                <div class="order-details-table">
+                    <table class="order-info-table">
+                        <tbody>
+                            <tr>
+                                <td class="info-label">🎁 Product</td>
+                                <td class="info-value">PudgyPal Plushie</td>
+                                <td class="info-label">👤 Customer Name</td>
+                                <td class="info-value">${orderData.customerName}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">Quantity</td>
+                                <td class="info-value">1</td>
+                                <td class="info-label">📧 Email</td>
+                                <td class="info-value">${orderData.email}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">💰 Total Amount</td>
+                                <td class="info-value">${orderData.total}</td>
+                                <td class="info-label">📅 Order Date</td>
+                                <td class="info-value">${orderDate}</td>
+                            </tr>
+                            <tr>
+                                <td class="info-label">📦 Order Status</td>
+                                <td class="info-value"><span class="status-badge">${orderData.status}</span></td>
+                                <td class="info-label">🏠 Delivery Address</td>
+                                <td class="info-value">Will be updated after payment confirmation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="background: linear-gradient(135deg, #fab1a0, #fd79a8); color: white; padding: 20px; border-radius: 15px;">
+                    <h4 style="margin-bottom: 15px;">📦 Adoption Status</h4>
+                    <div style="margin: 10px 0;">✅ Adoption request received</div>
+                    <div style="margin: 10px 0;">${orderData.status === 'Pending Payment' ? '⏳' : '✅'} Payment ${orderData.status === 'Pending Payment' ? 'pending' : 'confirmed'}</div>
+                    <div style="margin: 10px 0;">⏳ Preparing your PudgyPal</div>
+                    <div style="margin: 10px 0;">⏳ Shipping</div>
+                    <div style="margin: 10px 0;">⏳ Delivered & ready for cuddles!</div>
+                </div>
+            `;
+
+            resultDiv.classList.add('show');
+        }
+
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            searchOrder();
+        });
+    </script>
+</body>
+</html>

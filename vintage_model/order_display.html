@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Vintage Elegance</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Order Display Page Specific Styles */
+        .order-container {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #f4e4c1, #e6d3a3);
+            padding: 60px 0;
+        }
+
+        .order-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            color: #8b4513;
+            font-family: 'Georgia', serif;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .search-form {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid #daa520;
+            margin-bottom: 40px;
+        }
+
+        .form-title {
+            color: #8b4513;
+            margin-bottom: 30px;
+            font-family: 'Georgia', serif;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #d32f2f;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background-color: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #daa520;
+            box-shadow: 0 0 0 3px rgba(218, 165, 32, 0.1);
+        }
+
+        .form-input.error {
+            border-color: #d32f2f;
+            background-color: #ffebee;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .search-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #daa520, #b8860b);
+            color: #2c1810;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #b8860b, #daa520);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .search-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .order-result {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 2px solid #daa520;
+            display: none;
+        }
+
+        .order-result.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #daa520;
+        }
+
+        .order-id {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8b4513;
+        }
+
+        .order-status {
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffeaa7;
+        }
+
+        .status-processing {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+        }
+
+        .status-shipped {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .order-details-table {
+            margin-bottom: 40px;
+        }
+
+        .order-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: linear-gradient(135deg, #fff8dc, #f5deb3);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #daa520;
+        }
+
+        .order-info-table td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(139, 69, 19, 0.1);
+            vertical-align: top;
+        }
+
+        .order-info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-info-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #8b4513;
+            width: 25%;
+            font-size: 0.95rem;
+        }
+
+        .info-value {
+            color: #5d4037;
+            font-weight: 500;
+            width: 25%;
+        }
+
+        .status-badge {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .order-timeline {
+            margin-top: 30px;
+        }
+
+        .timeline-title {
+            color: #8b4513;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #daa520;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -37px;
+            top: 25px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #daa520;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #daa520;
+        }
+
+        .timeline-item.completed::before {
+            background: #4CAF50;
+            box-shadow: 0 0 0 3px #4CAF50;
+        }
+
+        .timeline-date {
+            color: #8b4513;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .timeline-status {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            color: #5d4037;
+            line-height: 1.5;
+        }
+
+        .no-order-found {
+            text-align: center;
+            padding: 40px;
+            color: #8b4513;
+        }
+
+        .no-order-found h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            color: #f9f6f1;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .contact-info h3 {
+            margin-bottom: 15px;
+            color: #daa520;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .order-content {
+                padding: 0 15px;
+            }
+
+            .search-form,
+            .order-result {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .order-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .order-info-table {
+                font-size: 0.9rem;
+            }
+
+            .order-info-table td {
+                padding: 12px 15px;
+            }
+
+            .info-label,
+            .info-value {
+                width: auto;
+                display: block;
+            }
+
+            .info-label {
+                font-size: 0.85rem;
+                margin-bottom: 3px;
+            }
+
+            .timeline {
+                padding-left: 25px;
+            }
+
+            .timeline-item::before {
+                left: -32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .order-container {
+                padding: 40px 0;
+            }
+
+            .search-form,
+            .order-result {
+                padding: 25px 15px;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Vintage Elegance</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#demo" class="nav-link">Demo</a>
+                <a href="order_display.html" class="nav-link">Track Order</a>
+                <a href="purchase.html" class="nav-link cta">Order Now</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Order Container -->
+    <div class="order-container">
+        <div class="order-content">
+            <h1 class="page-title">Track Your Order</h1>
+
+            <!-- Search Form -->
+            <div class="search-form">
+                <h2 class="form-title">Find Your Order</h2>
+                <form id="search-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="customerName" name="customerName" required>
+                        <div class="error-message" id="customerName-error">Please enter your full name</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" class="form-input" id="email" name="email" required>
+                        <div class="error-message" id="email-error">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Order ID (Optional)</label>
+                        <input type="text" class="form-input" id="orderId" name="orderId" placeholder="e.g., VE12345678">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Additional Message</label>
+                        <textarea class="form-input form-textarea" id="message" name="message" placeholder="Any questions or concerns about your order..."></textarea>
+                    </div>
+                    <button type="submit" class="search-btn" id="search-btn">Search Order</button>
+                </form>
+            </div>
+
+            <!-- Order Result -->
+            <div class="order-result" id="order-result">
+                <!-- Order content will be dynamically inserted here -->
+            </div>
+
+            <!-- Contact Information -->
+            <div class="contact-info">
+                <h3>Need Help?</h3>
+                <p>If you can't find your order or have any questions, please contact us:</p>
+                <p><strong>Email:</strong> info@vintageelegance.com</p>
+                <p><strong>Phone:</strong> +1-555-VINTAGE</p>
+                <p><strong>Hours:</strong> Monday - Friday, 9AM - 6PM EST</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@vintageelegance.com</p>
+                    <p>Phone: +1-555-VINTAGE</p>
+                    <p>Hours: Mon-Fri 9AM-6PM EST</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <p><a href="order_display.html">Track Your Order</a></p>
+                    <p><a href="index.html#process">Shipping Info</a></p>
+                    <p><a href="index.html#features">Product Details</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <p>Instagram: @VintageElegance</p>
+                    <p>Facebook: Vintage Elegance</p>
+                    <p>Twitter: @VintageModels</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Vintage Elegance. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Order display page specific JavaScript
+        
+        // Check for order ID in URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('orderId');
+            
+            if (orderId) {
+                document.getElementById('orderId').value = orderId;
+                // Auto-search if we have order ID from URL
+                searchOrder();
+            }
+
+            // Check for last order in localStorage
+            const lastOrder = localStorage.getItem('lastOrder');
+            if (lastOrder && !orderId) {
+                const orderData = JSON.parse(lastOrder);
+                document.getElementById('customerName').value = orderData.customerName;
+                document.getElementById('email').value = orderData.email;
+                document.getElementById('orderId').value = orderData.orderId;
+            }
+        });
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['customerName', 'email'];
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + '-error');
+                
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            if (email.value && !validateEmail(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Search order function
+        function searchOrder() {
+            if (!validateForm()) {
+                showNotification('Please fill in all required fields correctly.', 'error');
+                return;
+            }
+
+            const searchBtn = document.getElementById('search-btn');
+            searchBtn.disabled = true;
+            searchBtn.textContent = 'Searching...';
+
+            // Simulate API call
+            setTimeout(() => {
+                const orderId = document.getElementById('orderId').value;
+                const customerName = document.getElementById('customerName').value;
+                const email = document.getElementById('email').value;
+
+                // Mock order data - in real app, this would come from server
+                let orderData = null;
+
+                // Check localStorage for last order
+                const lastOrder = localStorage.getItem('lastOrder');
+                if (lastOrder) {
+                    const stored = JSON.parse(lastOrder);
+                    if (stored.customerName.toLowerCase().includes(customerName.toLowerCase()) && 
+                        stored.email.toLowerCase() === email.toLowerCase()) {
+                        orderData = stored;
+                    }
+                }
+
+                // If no stored order, create mock data
+                if (!orderData) {
+                    orderData = {
+                        orderId: orderId || 'VE' + Math.random().toString(36).substr(2, 8).toUpperCase(),
+                        product: 'Classic Beauty Figurine - $89.99',
+                        quantity: 1,
+                        customerName: customerName,
+                        email: email,
+                        phone: '+1-555-0123',
+                        address: {
+                            street: '123 Main St',
+                            city: 'Anytown',
+                            state: 'CA',
+                            zipCode: '12345',
+                            country: 'US'
+                        },
+                        paymentMethod: 'credit-card',
+                        total: '$99.98',
+                        status: 'Pending Payment',
+                        timestamp: new Date().toISOString(),
+                        site: 'vintage_model'
+                    };
+                }
+
+                displayOrderResult(orderData);
+                
+                searchBtn.disabled = false;
+                searchBtn.textContent = 'Search Order';
+
+            }, 1500);
+        }
+
+        // Display order result
+        function displayOrderResult(orderData) {
+            const resultDiv = document.getElementById('order-result');
+            
+            if (!orderData) {
+                resultDiv.innerHTML = `
+                    <div class="no-order-found">
+                        <h3>Order Not Found</h3>
+                        <p>We couldn't find an order matching your information. Please check your details and try again.</p>
+                        <p>If you continue to have trouble, please contact our customer service team.</p>
+                    </div>
+                `;
+            } else {
+                const statusClass = `status-${orderData.status.toLowerCase().replace(' ', '-')}`;
+                const orderDate = new Date(orderData.timestamp).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                resultDiv.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-id">Order #${orderData.orderId}</div>
+                        <div class="order-status ${statusClass}">${orderData.status}</div>
+                    </div>
+
+                    <div class="order-details-table">
+                        <table class="order-info-table">
+                            <tbody>
+                                <tr>
+                                    <td class="info-label">Product</td>
+                                    <td class="info-value">Classic Beauty Figurine</td>
+                                    <td class="info-label">Customer Name</td>
+                                    <td class="info-value">${orderData.customerName}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Quantity</td>
+                                    <td class="info-value">${orderData.quantity}</td>
+                                    <td class="info-label">Email</td>
+                                    <td class="info-value">${orderData.email}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Total Amount</td>
+                                    <td class="info-value">${orderData.total}</td>
+                                    <td class="info-label">Phone</td>
+                                    <td class="info-value">${orderData.phone || 'Not provided'}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Payment Method</td>
+                                    <td class="info-value">${orderData.paymentMethod.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</td>
+                                    <td class="info-label">Order Date</td>
+                                    <td class="info-value">${orderDate}</td>
+                                </tr>
+                                <tr>
+                                    <td class="info-label">Order Status</td>
+                                    <td class="info-value"><span class="status-badge">${orderData.status}</span></td>
+                                    <td class="info-label">Shipping Address</td>
+                                    <td class="info-value">${orderData.address.street}, ${orderData.address.city}, ${orderData.address.state} ${orderData.address.zipCode}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="order-timeline">
+                        <div class="timeline-title">Order Timeline</div>
+                        <div class="timeline">
+                            <div class="timeline-item completed">
+                                <div class="timeline-date">${orderDate}</div>
+                                <div class="timeline-status">Order Placed</div>
+                                <div class="timeline-description">Your order has been received and is being processed.</div>
+                            </div>
+                            <div class="timeline-item ${orderData.status !== 'Pending Payment' ? 'completed' : ''}">
+                                <div class="timeline-date">${orderData.status !== 'Pending Payment' ? orderDate : 'Pending'}</div>
+                                <div class="timeline-status">Payment ${orderData.status !== 'Pending Payment' ? 'Confirmed' : 'Pending'}</div>
+                                <div class="timeline-description">
+                                    ${orderData.status === 'Pending Payment' 
+                                        ? 'Waiting for payment confirmation. Due to high demand, online payment is temporarily unavailable.' 
+                                        : 'Payment has been confirmed and your order is being prepared.'}
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Pending</div>
+                                <div class="timeline-status">Processing</div>
+                                <div class="timeline-description">Your order is being carefully prepared and packaged.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Pending</div>
+                                <div class="timeline-status">Shipped</div>
+                                <div class="timeline-description">Your order has been shipped and is on its way to you.</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">Pending</div>
+                                <div class="timeline-status">Delivered</div>
+                                <div class="timeline-description">Your order has been successfully delivered.</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Form submission
+        document.getElementById('search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            searchOrder();
+        });
+
+        // Real-time validation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'block';
+                    }
+                } else {
+                    this.classList.remove('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

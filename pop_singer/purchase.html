@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Star - StarVibe</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Purchase Page Specific Styles */
+        .purchase-container {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            background: linear-gradient(135deg, #16213e, #0f3460, #533483);
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .purchase-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .purchase-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .product-summary {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+
+        .product-image {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 350px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 3px solid #00d4ff;
+            box-shadow: 0 15px 35px rgba(0, 212, 255, 0.3);
+            filter: brightness(1.1) contrast(1.1);
+        }
+
+        .product-image::after {
+            content: '⭐ LIMITED EDITION ⭐';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #e94560, #f27121);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4); }
+            to { box-shadow: 0 5px 25px rgba(233, 69, 96, 0.8); }
+        }
+
+        .product-info h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #e94560, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-details {
+            margin: 25px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .detail-value {
+            color: #00d4ff;
+            font-weight: 600;
+        }
+
+        .price-summary {
+            background: linear-gradient(135deg, #e94560, #f27121);
+            color: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 25px;
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 12px 0;
+            font-size: 1.1rem;
+        }
+
+        .total-price {
+            font-size: 1.8rem;
+            font-weight: 900;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            padding-top: 15px;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Order Form Styles */
+        .order-form {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-title {
+            color: #fff;
+            margin-bottom: 30px;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #00d4ff, #e94560);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-bottom: 2px solid #00d4ff;
+            padding-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .required {
+            color: #e94560;
+            text-shadow: 0 0 5px rgba(233, 69, 96, 0.5);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: #fff;
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .form-input.error {
+            border-color: #e94560;
+            background-color: rgba(233, 69, 96, 0.1);
+            box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
+        }
+
+        .error-message {
+            color: #e94560;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+            text-shadow: 0 0 5px rgba(233, 69, 96, 0.3);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quantity-btn {
+            background: linear-gradient(135deg, #e94560, #f27121);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.3);
+        }
+
+        .quantity-btn:hover {
+            background: linear-gradient(135deg, #f27121, #e94560);
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .payment-option {
+            position: relative;
+        }
+
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+
+        .payment-label {
+            display: block;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+        }
+
+        .payment-option input[type="radio"]:checked + .payment-label {
+            border-color: #00d4ff;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.1));
+            color: #00d4ff;
+            font-weight: 700;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.3);
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00d4ff, #090979);
+            color: #fff;
+            padding: 20px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 30px;
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #090979, #00d4ff);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 212, 255, 0.6);
+        }
+
+        .submit-btn:disabled {
+            background: linear-gradient(135deg, #666, #555);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .purchase-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 0 15px;
+            }
+
+            .product-summary,
+            .order-form {
+                padding: 30px 25px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .payment-options {
+                grid-template-columns: 1fr;
+            }
+
+            .product-info h2 {
+                font-size: 1.6rem;
+            }
+
+            .form-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .purchase-container {
+                padding: 60px 0;
+            }
+
+            .purchase-content {
+                padding: 0 10px;
+            }
+
+            .product-summary,
+            .order-form {
+                padding: 25px 20px;
+            }
+
+            .product-image img {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>StarVibe</h2>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#features" class="nav-link">Features</a>
+                <a href="index.html#demo" class="nav-link">Demo</a>
+                <a href="order_display.html" class="nav-link">Track Order</a>
+                <a href="purchase.html" class="nav-link cta">Get Yours</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Purchase Container -->
+    <div class="purchase-container">
+        <div class="purchase-content">
+            <!-- Product Summary -->
+            <div class="product-summary">
+                <div class="product-image">
+                    <img src="images/pop-singer-1.jpg" alt="Pop Star Figurine">
+                </div>
+                <div class="product-info">
+                    <h2>Ultimate Pop Star</h2>
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Material:</span>
+                            <span class="detail-value">Premium PVC + LED Base</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Height:</span>
+                            <span class="detail-value">14 inches</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Weight:</span>
+                            <span class="detail-value">3.2 lbs</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Edition:</span>
+                            <span class="detail-value">Limited (5,000 pieces)</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Features:</span>
+                            <span class="detail-value">LED Stage Base</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Includes:</span>
+                            <span class="detail-value">Certificate & Packaging</span>
+                        </div>
+                    </div>
+                    <div class="price-summary">
+                        <div class="price-row">
+                            <span>Unit Price:</span>
+                            <span>$129.99</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Quantity:</span>
+                            <span id="display-quantity">1</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Subtotal:</span>
+                            <span id="display-subtotal">$129.99</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Express Shipping:</span>
+                            <span>$14.99</span>
+                        </div>
+                        <div class="price-row total-price">
+                            <span>Total:</span>
+                            <span id="display-total">$144.98</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <div class="order-form">
+                <h2 class="form-title">Secure Your Star</h2>
+                <form id="order-form">
+                    <!-- Product Selection -->
+                    <div class="form-section">
+                        <h3 class="section-title">🎤 Product Selection</h3>
+                        <div class="form-group">
+                            <label class="form-label">Figurine <span class="required">*</span></label>
+                            <select class="form-input" id="product" name="product" required>
+                                <option value="pop-star-led">Ultimate Pop Star with LED Base - $129.99</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Quantity <span class="required">*</span></label>
+                            <div class="quantity-selector">
+                                <button type="button" class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" class="form-input quantity-input" id="quantity" name="quantity" value="1" min="1" max="5" required>
+                                <button type="button" class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                                <span style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-left: 15px;">Max 5 per customer</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">👤 Your Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">First Name <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="firstName" name="firstName" required>
+                                <div class="error-message" id="firstName-error">Please enter your first name</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Last Name <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="lastName" name="lastName" required>
+                                <div class="error-message" id="lastName-error">Please enter your last name</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Address <span class="required">*</span></label>
+                            <input type="email" class="form-input" id="email" name="email" required>
+                            <div class="error-message" id="email-error">Please enter a valid email address</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="form-section">
+                        <h3 class="section-title">🚚 Shipping Address</h3>
+                        <div class="form-group">
+                            <label class="form-label">Street Address <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="address" name="address" required>
+                            <div class="error-message" id="address-error">Please enter your street address</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">City <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="city" name="city" required>
+                                <div class="error-message" id="city-error">Please enter your city</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">State/Province <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="state" name="state" required>
+                                <div class="error-message" id="state-error">Please enter your state/province</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">ZIP/Postal Code <span class="required">*</span></label>
+                                <input type="text" class="form-input" id="zipCode" name="zipCode" required>
+                                <div class="error-message" id="zipCode-error">Please enter your ZIP/postal code</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Country <span class="required">*</span></label>
+                                <select class="form-input" id="country" name="country" required>
+                                    <option value="">Select Country</option>
+                                    <option value="US">United States</option>
+                                    <option value="CA">Canada</option>
+                                    <option value="UK">United Kingdom</option>
+                                    <option value="AU">Australia</option>
+                                    <option value="DE">Germany</option>
+                                    <option value="FR">France</option>
+                                    <option value="JP">Japan</option>
+                                    <option value="KR">South Korea</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <div class="error-message" id="country-error">Please select your country</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="form-section">
+                        <h3 class="section-title">💳 Payment Method</h3>
+                        <div class="payment-options">
+                            <div class="payment-option">
+                                <input type="radio" id="credit-card" name="paymentMethod" value="credit-card" required>
+                                <label for="credit-card" class="payment-label">
+                                    💳 Credit/Debit Card
+                                </label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="paypal" name="paymentMethod" value="paypal" required>
+                                <label for="paypal" class="payment-label">
+                                    🅿️ PayPal Express
+                                </label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="apple-pay" name="paymentMethod" value="apple-pay" required>
+                                <label for="apple-pay" class="payment-label">
+                                    📱 Apple Pay
+                                </label>
+                            </div>
+                            <div class="payment-option">
+                                <input type="radio" id="crypto" name="paymentMethod" value="crypto" required>
+                                <label for="crypto" class="payment-label">
+                                    ₿ Cryptocurrency
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-message" id="payment-error">Please select a payment method</div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submit-btn">
+                        🚀 Secure Your Star - <span id="button-total">$144.98</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: hello@starvibe.com</p>
+                    <p>Phone: +1-555-STARVIBE</p>
+                    <p>Hours: Mon-Fri 9AM-8PM EST</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <p><a href="order_display.html">Track Your Order</a></p>
+                    <p><a href="index.html#process">Shipping Info</a></p>
+                    <p><a href="index.html#features">Product Details</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <p>Instagram: @StarVibeOfficial</p>
+                    <p>TikTok: @StarVibe</p>
+                    <p>YouTube: StarVibe Collectibles</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 StarVibe Collectibles. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Purchase page specific JavaScript
+        const UNIT_PRICE = 129.99;
+        const SHIPPING_COST = 14.99;
+
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            let currentQuantity = parseInt(quantityInput.value);
+            let newQuantity = currentQuantity + change;
+
+            if (newQuantity >= 1 && newQuantity <= 5) {
+                quantityInput.value = newQuantity;
+                updatePricing();
+            }
+        }
+
+        function updatePricing() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const subtotal = UNIT_PRICE * quantity;
+            const total = subtotal + SHIPPING_COST;
+
+            document.getElementById('display-quantity').textContent = quantity;
+            document.getElementById('display-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('display-total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('button-total').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Enhanced form validation
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = ['firstName', 'lastName', 'email', 'address', 'city', 'state', 'zipCode', 'country'];
+
+            requiredFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + '-error');
+                
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            // Email validation
+            const email = document.getElementById('email');
+            const emailError = document.getElementById('email-error');
+            if (email.value && !validateEmail(email.value)) {
+                email.classList.add('error');
+                emailError.textContent = 'Please enter a valid email address';
+                emailError.style.display = 'block';
+                isValid = false;
+            }
+
+            // Payment method validation
+            const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+            const paymentError = document.getElementById('payment-error');
+            const paymentSelected = Array.from(paymentMethods).some(radio => radio.checked);
+            
+            if (!paymentSelected) {
+                paymentError.style.display = 'block';
+                isValid = false;
+            } else {
+                paymentError.style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        // Enhanced form submission with loading states
+        document.getElementById('order-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) {
+                showNotification('Please fill in all required fields correctly.', 'error');
+                return;
+            }
+
+            // Track order submission
+            trackClick('order_submitted');
+
+            // Enhanced loading animation
+            const submitBtn = document.getElementById('submit-btn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '🔄 Processing Your Order...';
+            submitBtn.style.background = 'linear-gradient(135deg, #666, #555)';
+
+            // Add processing animation
+            let dots = 0;
+            const loadingInterval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                submitBtn.innerHTML = `🔄 Processing Your Order${'.'.repeat(dots)}`;
+            }, 500);
+
+            setTimeout(() => {
+                clearInterval(loadingInterval);
+                
+                // Generate order ID
+                const orderId = 'SV' + Date.now().toString().slice(-8);
+                
+                // Show success message with enhanced styling
+                showNotification('🎉 Order submitted successfully! Due to high demand, online payment is temporarily unavailable. Your order status is "Pending Payment".', 'success', 6000);
+                
+                // Store order data
+                const orderData = {
+                    orderId: orderId,
+                    product: document.getElementById('product').value,
+                    quantity: document.getElementById('quantity').value,
+                    customerName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: {
+                        street: document.getElementById('address').value,
+                        city: document.getElementById('city').value,
+                        state: document.getElementById('state').value,
+                        zipCode: document.getElementById('zipCode').value,
+                        country: document.getElementById('country').value
+                    },
+                    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+                    total: document.getElementById('display-total').textContent,
+                    status: 'Pending Payment',
+                    timestamp: new Date().toISOString(),
+                    site: 'pop_singer'
+                };
+
+                console.log('Order Data:', orderData);
+                localStorage.setItem('lastOrder', JSON.stringify(orderData));
+
+                // Success animation
+                submitBtn.innerHTML = '✅ Order Submitted!';
+                submitBtn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+
+                // Redirect with delay
+                setTimeout(() => {
+                    window.location.href = `order_display.html?orderId=${orderId}`;
+                }, 2500);
+
+            }, 2500);
+        });
+
+        // Real-time validation with enhanced feedback
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.borderColor = '#00d4ff';
+                this.style.boxShadow = '0 0 0 3px rgba(0, 212, 255, 0.2)';
+            });
+
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value.trim()) {
+                    this.classList.add('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'block';
+                    }
+                } else {
+                    this.classList.remove('error');
+                    const errorElement = document.getElementById(this.id + '-error');
+                    if (errorElement) {
+                        errorElement.style.display = 'none';
+                    }
+                }
+                
+                // Reset focus styles
+                if (!this.classList.contains('error')) {
+                    this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    this.style.boxShadow = 'none';
+                }
+            });
+
+            // Input animation
+            input.addEventListener('input', function() {
+                if (this.value) {
+                    this.style.background = 'rgba(255, 255, 255, 0.15)';
+                } else {
+                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        });
+
+        // Quantity input change handler
+        document.getElementById('quantity').addEventListener('change', updatePricing);
+
+        // Payment method selection animation
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.payment-label').forEach(label => {
+                    label.style.transform = 'scale(1)';
+                });
+                if (this.checked) {
+                    const label = document.querySelector(`label[for="${this.id}"]`);
+                    label.style.transform = 'scale(1.02)';
+                    
+                    // Add selection effect
+                    setTimeout(() => {
+                        label.style.transform = 'scale(1)';
+                    }, 200);
+                }
+            });
+        });
+
+        // Initialize pricing
+        updatePricing();
+
+        // Add particle effect on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createStarField();
+        });
+
+        function createStarField() {
+            const starField = document.createElement('div');
+            starField.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 0;
+            `;
+
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement('div');
+                star.style.cssText = `
+                    position: absolute;
+                    width: 2px;
+                    height: 2px;
+                    background: #fff;
+                    border-radius: 50%;
+                    opacity: ${Math.random() * 0.5 + 0.2};
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                    animation: twinkle ${2 + Math.random() * 3}s infinite alternate;
+                `;
+                starField.appendChild(star);
+            }
+
+            document.body.appendChild(starField);
+        }
+    </script>
+</body>
+</html>
